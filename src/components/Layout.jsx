@@ -29,7 +29,7 @@ export function Layout({ children }) {
                                     <Link to="/profiles-app/">Home</Link>
                                 </li>
                                 <li className="p-2 rounded hover:bg-slate-200 hover:cursor-pointer hover:text-slate-800">
-                                    <Link to="/profiles-app/profile/">Profile</Link>
+                                    <Link to={`/profiles-app/profile/${auth.user.id}`}>Profile</Link>
                                 </li>
                                 <li className="p-2 rounded hover:bg-slate-200 hover:cursor-pointer hover:text-slate-800">
                                     <button onClick={() => handleLogout()}>

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../context/AuthProvider";
@@ -7,9 +7,13 @@ import { API_URL } from '../utils/config'
 
 export function useAuth() {
 
-    const { setAuth } = useContext(AuthContext)
+    const { auth, setAuth } = useContext(AuthContext)
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        localStorage.setItem('auth', JSON.stringify(auth))
+    }, [auth])
 
     async function handleSignup(user) {
         try {
@@ -38,7 +42,6 @@ export function useAuth() {
             })
             const data = await res.json()
             setAuth(data)
-            localStorage.setItem('auth', JSON.stringify(data))
             navigate('/profiles-app/')
         } catch (err) {
             console.log(err)
