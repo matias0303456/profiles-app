@@ -31,7 +31,7 @@ export function useUsers() {
                     'Content-Type': 'application/json',
                     'Authorization': auth?.token
                 },
-                body: JSON.stringify({ followed })
+                body: JSON.stringify({ follower: auth?.user.id, followed })
             })
             const data = await res.json()
             setAuth({ ...auth, user: { ...auth.user, follows: [...auth.user.follows, data] } })
@@ -50,12 +50,12 @@ export function useUsers() {
                     'Content-Type': 'application/json',
                     'Authorization': auth?.token
                 },
-                body: JSON.stringify({ followed })
+                body: JSON.stringify({ follower: auth?.user.id, followed })
             })
             setAuth({
                 ...auth,
                 user: {
-                    ...auth.user, 
+                    ...auth.user,
                     follows: [
                         ...auth.user.follows.filter(item => parseInt(item.followed.id) !== parseInt(followed))
                     ]
@@ -67,6 +67,36 @@ export function useUsers() {
         }
     }
 
-    return { getUsers, users, handleFollow, handleUnfollow }
+    async function handleDeleteFollow(follower) {
+        if (!auth) return
+        try {
+            await fetch(API_URL + `/unfollow/${auth?.user.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': auth?.token
+                },
+                body: JSON.stringify({ follower, followed: auth?.user.id })
+            })
+            setAuth({
+                ...auth,
+                user: {
+                    ...auth.user,
+                    profile: {
+                        ...auth.user.profile,
+                        follows: [
+                            ...auth.user.profile.follows
+                                .filter(item => parseInt(item.follower.id) !== parseInt(follower))
+                        ]
+                    }
+                }
+            })
+            setUsers([...users.filter(item => parseInt(item.profile.id) !== parseInt(follower))])
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    return { getUsers, users, handleFollow, handleUnfollow, handleDeleteFollow }
 
 }

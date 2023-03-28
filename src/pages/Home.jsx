@@ -8,7 +8,7 @@ export function Home() {
 
     const { auth } = useContext(AuthContext)
 
-    const { getUsers, users, handleFollow, handleUnfollow } = useUsers()
+    const { getUsers, users, handleFollow } = useUsers()
 
     useEffect(() => {
         getUsers()
@@ -22,7 +22,7 @@ export function Home() {
             <UsersList
                 users={users.filter(user => !auth.user.follows.map(follow => follow.followed.id).includes(user.profile.id))}
                 handleFollow={handleFollow}
-                handleUnfollow={handleUnfollow}
+                followText="Follow"
             />
         </>
     )
