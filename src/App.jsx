@@ -1,12 +1,15 @@
 import { Layout } from "./components/Layout"
 import { Router } from "./components/Router"
+import { AuthProvider } from "./context/AuthProvider"
 
 function App() {
 
   return (
-    <Layout>
-      <Router />
-    </Layout>
+    <AuthProvider>
+      <Layout>
+        <Router />
+      </Layout>
+    </AuthProvider>
   )
 }
 
