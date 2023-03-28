@@ -1,6 +1,12 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 
+import { AuthContext } from "../context/AuthProvider";
+
 export function Layout({ children }) {
+
+    const { auth } = useContext(AuthContext)
+
     return (
         <div className="p-2 h-screen flex flex-col">
 
@@ -8,36 +14,36 @@ export function Layout({ children }) {
                 <h1 className="w-2/4">Profiles App</h1>
                 <nav className="w-2/4">
                     <ul className="flex justify-around">
-                        <li>
-                            <Link to="/profiles-app/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/profiles-app/profile/">Profile</Link>
-                        </li>
-                        <>
-                            <li>
-                                <button>
-                                    Sign In
-                                </button>
-                            </li>
-                            <li>
-                                <button>
-                                    Sign Up
-                                </button>
-                            </li>
-                        </>
-                        <>
-                            <li>
-                                <span>
-                                    Hola!
-                                </span>
-                            </li>
-                            <li>
-                                <button>
-                                    Logout
-                                </button>
-                            </li>
-                        </>
+                        {auth ?
+                            <>
+                                <li>
+                                    <Link to="/profiles-app/">Home</Link>
+                                </li>
+                                <li>
+                                    <Link to="/profiles-app/profile/">Profile</Link>
+                                </li>
+                                <li>
+                                    <span>
+                                        Hola!
+                                    </span>
+                                </li>
+                                <li>
+                                    <button>
+                                        Logout
+                                    </button>
+                                </li>
+                            </> :
+                            <>
+                                <li>
+                                    <button>
+                                        Sign In
+                                    </button>
+                                </li>
+                                <li>
+                                    <Link to="/profiles-app/signup">Sign Up</Link>
+                                </li>
+                            </>
+                        }
                     </ul>
                 </nav>
             </header>

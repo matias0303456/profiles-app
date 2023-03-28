@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../context/AuthProvider";
 
@@ -8,7 +9,9 @@ export function useAuth() {
 
     const { auth, setAuth } = useContext(AuthContext)
 
-    async function register(user) {
+    const navigate = useNavigate()
+
+    async function handleSignup(user) {
         try {
             const res = await fetch(API_URL + '/register', {
                 method: 'POST',
@@ -17,8 +20,8 @@ export function useAuth() {
                 },
                 body: JSON.stringify(user)
             })
-            const data = await res.json()
-            return data
+            await res.json()
+            navigate('/profiles-app/')
         } catch (err) {
             console.log(err)
         }
@@ -41,6 +44,6 @@ export function useAuth() {
         }
     }
 
-    return { auth, register, login }
+    return { auth, handleSignup, login }
 
 }
