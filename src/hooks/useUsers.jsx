@@ -10,6 +10,7 @@ export function useUsers() {
     const [users, setUsers] = useState([])
 
     async function getUsers() {
+        if (!auth) return
         const res = await fetch(API_URL + `/user/${auth?.user.id}`, {
             method: 'GET',
             headers: {
@@ -34,15 +35,36 @@ export function useUsers() {
             })
             const data = await res.json()
             setAuth({ ...auth, user: { ...auth.user, follows: [...auth.user.follows, data] } })
-            setUsers([...users.filter(item => item.profile.id !== data.id)])
+            setUsers([...users.filter(item => parseInt(item.profile.id) !== parseInt(data.id))])
         } catch (err) {
             console.log(err)
         }
     }
 
-    function handleUnfollow() {
+    async function handleUnfollow(followed) {
         if (!auth) return
-
+        try {
+            await fetch(API_URL + `/unfollow/${auth?.user.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': auth?.token
+                },
+                body: JSON.stringify({ followed })
+            })
+            setAuth({
+                ...auth,
+                user: {
+                    ...auth.user, 
+                    follows: [
+                        ...auth.user.follows.filter(item => parseInt(item.followed.id) !== parseInt(followed))
+                    ]
+                }
+            })
+            setUsers([...users.filter(item => parseInt(item.profile.id) !== parseInt(followed))])
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     return { getUsers, users, handleFollow, handleUnfollow }

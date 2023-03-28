@@ -17,7 +17,7 @@ export function UsersList({ users, handleFollow, handleUnfollow, follow = true }
                                         handleFollow(user.profile.id)
                                     }
                                     else {
-                                        handleUnfollow()
+                                        handleUnfollow(user.profile.id)
                                     }
                                 }}
                             >
