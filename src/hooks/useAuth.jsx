@@ -7,7 +7,7 @@ import { API_URL } from '../utils/config'
 
 export function useAuth() {
 
-    const { auth, setAuth } = useContext(AuthContext)
+    const { setAuth } = useContext(AuthContext)
 
     const navigate = useNavigate()
 
@@ -39,11 +39,18 @@ export function useAuth() {
             const data = await res.json()
             setAuth(data)
             localStorage.setItem('auth', JSON.stringify(data))
+            navigate('/profiles-app/')
         } catch (err) {
             console.log(err)
         }
     }
 
-    return { auth, handleSignup, login }
+    function handleLogout() {
+        localStorage.clear()
+        setAuth(null)
+        navigate('/profiles-app/')
+    }
+
+    return { handleSignup, login, handleLogout }
 
 }

@@ -2,10 +2,13 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 import { AuthContext } from "../context/AuthProvider";
+import { useAuth } from "../hooks/useAuth";
 
 export function Layout({ children }) {
 
     const { auth } = useContext(AuthContext)
+
+    const { handleLogout } = useAuth()
 
     return (
         <div className="p-2 h-screen flex flex-col">
@@ -17,27 +20,25 @@ export function Layout({ children }) {
                         {auth ?
                             <>
                                 <li>
+                                    <span>
+                                        Hola {auth.user.username}!
+                                    </span>
+                                </li>
+                                <li>
                                     <Link to="/profiles-app/">Home</Link>
                                 </li>
                                 <li>
                                     <Link to="/profiles-app/profile/">Profile</Link>
                                 </li>
                                 <li>
-                                    <span>
-                                        Hola!
-                                    </span>
-                                </li>
-                                <li>
-                                    <button>
+                                    <button onClick={() => handleLogout()}>
                                         Logout
                                     </button>
                                 </li>
                             </> :
                             <>
                                 <li>
-                                    <button>
-                                        Sign In
-                                    </button>
+                                    <Link to="/profiles-app/signin">Sign In</Link>
                                 </li>
                                 <li>
                                     <Link to="/profiles-app/signup">Sign Up</Link>
