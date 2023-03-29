@@ -1,5 +1,6 @@
 import { useContext, useEffect } from "react"
-import { useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
+import { AiFillEdit, AiFillDelete } from 'react-icons/ai'
 
 import { useUsers } from "../hooks/useUsers"
 import { UsersList } from '../components/UsersList'
@@ -10,6 +11,7 @@ export function Profile() {
     const { auth } = useContext(AuthContext)
 
     const params = useParams()
+    const navigate = useNavigate()
 
     const { getUsers, users, handleUnfollow, handleDeleteFollow } = useUsers()
 
@@ -29,27 +31,40 @@ export function Profile() {
                     `${profileUser.username}'s profile`
                 }
             </h2>
-            <div>
-                <h3>User data</h3>
-                <img src={profileUser.profile.avatar} alt="" />
-                <h4>Email</h4>
-                <p>{profileUser.email}</p>
-                <h4>Bio</h4>
-                <p>{profileUser.profile.bio}</p>
-            </div>
-            <div className="flex gap-5">
+            <div className="flex flex-wrap justify-between gap-5">
                 <div>
-                    <h3>Followers</h3>
+                    <h3 className="text-2xl mb-5 flex gap-3 justify-center items-center">
+                        User data
+                        {parseInt(params.id) === parseInt(auth.user.id) &&
+                            <>
+                                <AiFillEdit
+                                    className="hover:text-slate-400 hover:cursor-pointer"
+                                    onClick={() => navigate(`/profiles-app/update-user/${auth.user.id}`)}
+                                />
+                                <AiFillDelete className="hover:text-slate-400 hover:cursor-pointer" />
+                            </>
+                        }
+                    </h3>
+                    <img src={profileUser.profile.avatar} alt="Avatar of profile's owner" className="w-48 rounded-full" />
+                    <h4 className="mt-3 text-xl">Email</h4>
+                    <p className="mb-3">{profileUser.email}</p>
+                    <h4 className="text-xl">Biography</h4>
+                    <p>
+                        {profileUser.profile.bio ? profileUser.profile.bio : 'No biography added.'}
+                    </p>
+                </div>
+                <div>
+                    <h3 className="text-2xl mb-5 text-center">Followers</h3>
                     <UsersList
-                        users={users.filter(user => profileUser.profile.follows.map(follow => follow.follower.id).includes(user.id))}
+                        users={users.filter(user => profileUser.profile.follows.map(follow => follow.follower?.id).includes(user.id))}
                         handleDeleteFollow={handleDeleteFollow}
                         followText="Delete"
                     />
                 </div>
                 <div>
-                    <h3>Following</h3>
+                    <h3 className="text-2xl mb-5 text-center">Following</h3>
                     <UsersList
-                        users={users.filter(user => profileUser.follows.map(follow => follow.followed.id).includes(user.profile.id))}
+                        users={users.filter(user => profileUser.follows.map(follow => follow.followed?.id).includes(user.profile.id))}
                         handleUnfollow={handleUnfollow}
                         followText="Unfollow"
                     />

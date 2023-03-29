@@ -11,7 +11,7 @@ export function UsersList({ users, handleFollow, handleUnfollow, handleDeleteFol
                     <div key={user.id}
                         className="m-3 bg-slate-200 text-slate-800 rounded w-48 p-2 flex gap-3">
                         <div className="flex items-center w-1/4">
-                            <img src={user.profile.avatar} alt="" className="rounded-full" />
+                            <img src={user.profile.avatar} alt="User's avatar" className="rounded-full" />
                         </div>
                         <div className="text-center flex flex-col justify-around w-3/4">
                             <p

@@ -5,6 +5,7 @@ import { Home } from "../pages/Home";
 import { Profile } from "../pages/Profile";
 import { Signin } from "../pages/Signin";
 import { Signup } from "../pages/Signup";
+import { UpdateUser } from "../pages/UpdateUser";
 
 export function Router() {
     return (
@@ -13,6 +14,7 @@ export function Router() {
             <Route path="/profiles-app/signup" element={<Signup />} />
             <Route path="/profiles-app/signin" element={<Signin />} />
             <Route path="/profiles-app/profile/:id" element={<Profile />} />
+            <Route path="/profiles-app/update-user/:id" element={<UpdateUser />} />
             <Route path="*" element={<Error />} />
         </Routes>
     )

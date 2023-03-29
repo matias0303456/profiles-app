@@ -1,11 +1,14 @@
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router";
 
 import { AuthContext } from "../context/AuthProvider";
-import { API_URL } from "../utils/config";
+import { API_URL, DEFAULT_AVATAR } from "../utils/config";
 
 export function useUsers() {
 
     const { auth, setAuth } = useContext(AuthContext)
+
+    const navigate = useNavigate()
 
     const [users, setUsers] = useState([])
 
@@ -20,6 +23,49 @@ export function useUsers() {
         })
         const data = await res.json()
         setUsers(data)
+    }
+
+    async function setNewAvatar(avatar) {
+        if (avatar.length > 0) {
+            return Promise.resolve('hola')
+        } else {
+            return Promise.resolve(DEFAULT_AVATAR)
+        }
+    }
+
+    async function updateUser({ avatar, username, bio }) {
+        const newAvatar = await setNewAvatar(avatar)
+        const userPromise = await fetch(API_URL + `/user/${auth.user.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': auth?.token
+            },
+            body: JSON.stringify({ username })
+        })
+        const profilePromise = await fetch(API_URL + `/profile/${auth.user.id}/${auth.user.profile.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': auth?.token
+            },
+            body: JSON.stringify({ avatar: newAvatar, bio })
+        })
+        const res = await Promise.all([userPromise, profilePromise])
+        const [newUser, newProfile] = await Promise.all([res[0].json(), res[1].json()])
+        setAuth({
+            ...auth,
+            user: {
+                ...auth.user,
+                username: newUser.username,
+                profile: {
+                    ...auth.user.profile,
+                    avatar: newProfile.avatar,
+                    bio: newProfile.bio
+                }
+            },
+        })
+        navigate(`/profiles-app/profile/${auth.user.id}`)
     }
 
     async function handleFollow(followed) {
@@ -97,6 +143,6 @@ export function useUsers() {
         }
     }
 
-    return { getUsers, users, handleFollow, handleUnfollow, handleDeleteFollow }
+    return { getUsers, users, updateUser, handleFollow, handleUnfollow, handleDeleteFollow }
 
 }
