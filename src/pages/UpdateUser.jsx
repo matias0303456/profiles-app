@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
 
@@ -14,8 +14,6 @@ export function UpdateUser() {
     const { updateUser } = useUsers()
 
     const { register, handleSubmit, formState: { errors } } = useForm();
-
-    const avatarRef = useRef(null)
 
     const onSubmit = ({ avatar, username, bio }) => updateUser({ avatar, username, bio })
 
@@ -50,7 +48,10 @@ export function UpdateUser() {
                     <small className="block mt-1">* This field is too long.</small>}
 
                 <label htmlFor="avatar" className="block mb-1 mt-3">New avatar</label>
-                <input type="file" className="rounded p-1 w-full" {...register("avatar")} />
+                <input placeholder="Paste image URL"
+                    defaultValue={auth.user.profile.avatar}
+                    className="rounded p-1 w-full" {...register("avatar")}
+                />
 
                 <input
                     type="submit"

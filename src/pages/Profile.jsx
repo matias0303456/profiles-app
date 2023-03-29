@@ -31,8 +31,8 @@ export function Profile() {
                     `${profileUser.username}'s profile`
                 }
             </h2>
-            <div className="flex flex-wrap justify-between gap-5">
-                <div>
+            <div className="flex flex-col gap-10 items-center lg:flex-row lg:gap-5 lg:justify-start lg:items-start">
+                <div className="text-center w-2/6">
                     <h3 className="text-2xl mb-5 flex gap-3 justify-center items-center">
                         User data
                         {parseInt(params.id) === parseInt(auth.user.id) &&
@@ -45,15 +45,17 @@ export function Profile() {
                             </>
                         }
                     </h3>
-                    <img src={profileUser.profile.avatar} alt="Avatar of profile's owner" className="w-48 rounded-full" />
+                    <div className="rounded-full overflow-hidden h-64 w-64 mx-auto my-7">
+                        <img src={profileUser.profile.avatar} alt="Avatar of profile's owner" />
+                    </div>
                     <h4 className="mt-3 text-xl">Email</h4>
-                    <p className="mb-3">{profileUser.email}</p>
+                    <p className="mb-5">{profileUser.email}</p>
                     <h4 className="text-xl">Biography</h4>
-                    <p>
+                    <p className="break-words">
                         {profileUser.profile.bio ? profileUser.profile.bio : 'No biography added.'}
                     </p>
                 </div>
-                <div>
+                <div className="w-2/6">
                     <h3 className="text-2xl mb-5 text-center">Followers</h3>
                     <UsersList
                         users={users.filter(user => profileUser.profile.follows.map(follow => follow.follower?.id).includes(user.id))}
@@ -61,7 +63,7 @@ export function Profile() {
                         followText="Delete"
                     />
                 </div>
-                <div>
+                <div className="w-2/6">
                     <h3 className="text-2xl mb-5 text-center">Following</h3>
                     <UsersList
                         users={users.filter(user => profileUser.follows.map(follow => follow.followed?.id).includes(user.profile.id))}
