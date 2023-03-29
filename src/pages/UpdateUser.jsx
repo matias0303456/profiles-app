@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
 
@@ -14,6 +14,8 @@ export function UpdateUser() {
     const { updateUser } = useUsers()
 
     const { register, handleSubmit, formState: { errors } } = useForm();
+
+    const avatarRef = useRef(null)
 
     const onSubmit = ({ avatar, username, bio }) => updateUser({ avatar, username, bio })
 

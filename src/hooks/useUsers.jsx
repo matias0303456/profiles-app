@@ -27,7 +27,17 @@ export function useUsers() {
 
     async function setNewAvatar(avatar) {
         if (avatar.length > 0) {
-            return Promise.resolve('hola')
+            const res = await fetch(API_URL + `/user/change-avatar/${auth.user.id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': auth?.token
+                },
+                body: JSON.stringify({ url: URL.createObjectURL(avatar[0]).replace('blob:', '') })
+            })
+            const data = await res.json()
+            console.log(data)
+            return Promise.resolve(data.secure_url || data.message || DEFAULT_AVATAR)
         } else {
             return Promise.resolve(DEFAULT_AVATAR)
         }
