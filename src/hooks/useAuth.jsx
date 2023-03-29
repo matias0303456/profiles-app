@@ -1,5 +1,6 @@
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { AuthContext } from "../context/AuthProvider";
 
@@ -24,10 +25,12 @@ export function useAuth() {
                 },
                 body: JSON.stringify(user)
             })
-            await res.json()
+            const data = await res.json()
+            if (data.message !== "Successful register.") return toast.error('Email already exists.')
+            toast.success(data.message)
             navigate('/profiles-app/')
         } catch (err) {
-            console.log(err)
+            toast.error(err.message)
         }
     }
 
@@ -41,10 +44,11 @@ export function useAuth() {
                 body: JSON.stringify(user)
             })
             const data = await res.json()
+            if (data.message === "Invalid user or password.") return toast.error(data.message)
             setAuth(data)
             navigate('/profiles-app/')
         } catch (err) {
-            console.log(err)
+            toast.error(err.message)
         }
     }
 

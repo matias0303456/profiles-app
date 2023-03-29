@@ -1,12 +1,16 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 import { AuthContext } from "../context/AuthProvider";
-import { API_URL, DEFAULT_AVATAR } from "../utils/config";
+import { API_URL } from "../utils/config";
+import { useAuth } from "./useAuth";
 
 export function useUsers() {
 
     const { auth, setAuth } = useContext(AuthContext)
+
+    const { handleLogout } = useAuth()
 
     const navigate = useNavigate()
 
@@ -14,15 +18,20 @@ export function useUsers() {
 
     async function getUsers() {
         if (!auth) return
-        const res = await fetch(API_URL + `/user/${auth?.user.id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': auth?.token
-            }
-        })
-        const data = await res.json()
-        setUsers(data)
+        try {
+            const res = await fetch(API_URL + `/user/${auth?.user.id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': auth?.token
+                }
+            })
+            const data = await res.json()
+            setUsers(data)
+        } catch (err) {
+            handleLogout()
+            toast.error(err.message)
+        }
     }
 
     async function updateUser({ avatar, username, bio }) {
@@ -59,7 +68,7 @@ export function useUsers() {
             })
             navigate(`/profiles-app/profile/${auth.user.id}`)
         } catch (err) {
-            console.log(err.message)
+            toast.error(err.message)
         }
     }
 
@@ -78,7 +87,7 @@ export function useUsers() {
             setAuth({ ...auth, user: { ...auth.user, follows: [...auth.user.follows, data] } })
             setUsers([...users.filter(item => parseInt(item.profile.id) !== parseInt(data.id))])
         } catch (err) {
-            console.log(err)
+            toast.error(err.message)
         }
     }
 
@@ -104,7 +113,7 @@ export function useUsers() {
             })
             setUsers([...users.filter(item => parseInt(item.profile.id) !== parseInt(followed))])
         } catch (err) {
-            console.log(err)
+            toast.error(err.message)
         }
     }
 
@@ -134,7 +143,7 @@ export function useUsers() {
             })
             setUsers([...users.filter(item => parseInt(item.profile.id) !== parseInt(follower))])
         } catch (err) {
-            console.log(err)
+            toast.error(err.message)
         }
     }
 
