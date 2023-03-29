@@ -27,9 +27,12 @@ export function useUsers() {
                 }
             })
             const data = await res.json()
+            if (data.message === 'Invalid token.') {
+                toast.error('Please sign in again.')
+                handleLogout()
+            }
             setUsers(data)
         } catch (err) {
-            handleLogout()
             toast.error(err.message)
         }
     }
@@ -67,6 +70,22 @@ export function useUsers() {
                 },
             })
             navigate(`/profiles-app/profile/${auth.user.id}`)
+        } catch (err) {
+            toast.error(err.message)
+        }
+    }
+
+    async function deleteUser() {
+        try {
+            await fetch(API_URL + `/user/${auth.user.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': auth?.token
+                }
+            })
+            toast.success('Your account and information have been deleted.')
+            handleLogout()
         } catch (err) {
             toast.error(err.message)
         }
@@ -147,6 +166,6 @@ export function useUsers() {
         }
     }
 
-    return { getUsers, users, updateUser, handleFollow, handleUnfollow, handleDeleteFollow }
+    return { getUsers, users, updateUser, deleteUser, handleFollow, handleUnfollow, handleDeleteFollow }
 
 }

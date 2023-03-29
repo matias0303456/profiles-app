@@ -5,6 +5,7 @@ import { AiFillEdit, AiFillDelete } from 'react-icons/ai'
 import { useUsers } from "../hooks/useUsers"
 import { UsersList } from '../components/UsersList'
 import { AuthContext } from "../context/AuthProvider"
+import { Alert } from '../components/Alert'
 
 export function Profile() {
 
@@ -13,7 +14,7 @@ export function Profile() {
     const params = useParams()
     const navigate = useNavigate()
 
-    const { getUsers, users, handleUnfollow, handleDeleteFollow } = useUsers()
+    const { getUsers, users, deleteUser, handleUnfollow, handleDeleteFollow } = useUsers()
 
     useEffect(() => {
         getUsers()
@@ -41,7 +42,20 @@ export function Profile() {
                                     className="hover:text-slate-400 hover:cursor-pointer"
                                     onClick={() => navigate(`/profiles-app/update-user/${auth.user.id}`)}
                                 />
-                                <AiFillDelete className="hover:text-slate-400 hover:cursor-pointer" />
+                                <AiFillDelete
+                                    className="hover:text-slate-400 hover:cursor-pointer"
+                                    onClick={() => {
+                                        Alert.fire({
+                                            title: <p>Delete account and all information?</p>,
+                                            showConfirmButton: true,
+                                            confirmButtonText: 'Confirm',
+                                            confirmButtonColor: '#1E293B',
+                                            showCancelButton: true
+                                        }).then(res => {
+                                            if (res.isConfirmed) deleteUser()
+                                        })
+                                    }}
+                                />
                             </>
                         }
                     </h3>
