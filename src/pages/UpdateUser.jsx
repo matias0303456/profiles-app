@@ -50,7 +50,7 @@ export function UpdateUser() {
                 <label htmlFor="avatar" className="block mb-1 mt-3">New avatar</label>
                 <input placeholder="Paste image URL"
                     defaultValue={auth.user.profile.avatar}
-                    className="rounded p-1 w-full" {...register("avatar")}
+                    className="rounded p-1 w-full text-black" {...register("avatar")}
                 />
 
                 <input

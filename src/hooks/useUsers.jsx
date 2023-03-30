@@ -69,6 +69,7 @@ export function useUsers() {
                     }
                 },
             })
+            toast.success('Your data has been updated.')
             navigate(`/profiles-app/profile/${auth.user.id}`)
         } catch (err) {
             toast.error(err.message)
