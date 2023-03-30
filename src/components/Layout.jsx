@@ -14,8 +14,8 @@ export function Layout({ children }) {
     return (
         <div className="p-2 h-screen flex flex-col">
 
-            <header className="flex flex-wrap bg-slate-800 text-slate-200 p-6 shadow-sm shadow-black rounded">
-                <h1 className="w-2/4 text-4xl">Profiles App</h1>
+            <header className="flex flex-wrap bg-slate-800 text-slate-200 p-3 shadow-sm shadow-black rounded">
+                <h1 className="w-2/4 text-6xl pl-6 tracking-wider">Profiles App</h1>
                 <nav className="w-2/4 flex items-center">
                     <ul className="w-full flex justify-around">
                         {auth ?
