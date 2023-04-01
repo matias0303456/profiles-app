@@ -59,8 +59,8 @@ export function Profile() {
                             </>
                         }
                     </h3>
-                    <div className="rounded-full overflow-hidden h-64 w-64 mx-auto my-7">
-                        <img src={profileUser.profile.avatar} alt="Avatar of profile's owner" />
+                    <div className="rounded-full overflow-hidden h-64 w-64 mx-auto my-7 flex items-center">
+                        <img src={profileUser.profile.avatar} alt="Avatar of profile's owner" className="w-full h-full object-cover" />
                     </div>
                     <h4 className="mt-3 text-xl">Email</h4>
                     <p className="mb-5">{profileUser.email}</p>

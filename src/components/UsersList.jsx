@@ -10,8 +10,8 @@ export function UsersList({ users, handleFollow, handleUnfollow, handleDeleteFol
                 return (
                     <div key={user.id}
                         className="m-3 bg-slate-200 text-slate-800 rounded w-48 p-2 flex gap-3">
-                        <div className="flex items-center my-auto w-1/4 rounded-full overflow-hidden">
-                            <img src={user.profile.avatar} alt="User's avatar" />
+                        <div className="w-10 h-10 rounded-full overflow-hidden">
+                            <img src={user.profile.avatar} alt="User's avatar" className="w-full h-full object-cover" />
                         </div>
                         <div className="text-center flex flex-col justify-around w-3/4">
                             <p
