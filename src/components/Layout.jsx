@@ -26,10 +26,10 @@ export function Layout({ children }) {
                                     </span>
                                 </li>
                                 <li className="p-2 rounded hover:bg-slate-200 hover:cursor-pointer hover:text-slate-800">
-                                    <Link to="/profiles-app/">Home</Link>
+                                    <Link to="/profiles/">Home</Link>
                                 </li>
                                 <li className="p-2 rounded hover:bg-slate-200 hover:cursor-pointer hover:text-slate-800">
-                                    <Link to={`/profiles-app/profile/${auth.user.id}`}>Profile</Link>
+                                    <Link to={`/profiles/profile/${auth.user.id}`}>Profile</Link>
                                 </li>
                                 <li className="p-2 rounded hover:bg-slate-200 hover:cursor-pointer hover:text-slate-800">
                                     <button onClick={() => handleLogout()}>
@@ -39,10 +39,10 @@ export function Layout({ children }) {
                             </> :
                             <>
                                 <li className="p-2 rounded hover:bg-slate-200 hover:cursor-pointer hover:text-slate-800">
-                                    <Link to="/profiles-app/signin">Sign In</Link>
+                                    <Link to="/profiles/signin">Sign In</Link>
                                 </li>
                                 <li className="p-2 rounded hover:bg-slate-200 hover:cursor-pointer hover:text-slate-800">
-                                    <Link to="/profiles-app/signup">Sign Up</Link>
+                                    <Link to="/profiles/signup">Sign Up</Link>
                                 </li>
                             </>
                         }

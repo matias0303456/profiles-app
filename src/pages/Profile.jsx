@@ -40,7 +40,7 @@ export function Profile() {
                             <>
                                 <AiFillEdit
                                     className="hover:text-slate-400 hover:cursor-pointer"
-                                    onClick={() => navigate(`/profiles-app/update-user/${auth.user.id}`)}
+                                    onClick={() => navigate(`/profiles/update-user/${auth.user.id}`)}
                                 />
                                 <AiFillDelete
                                     className="hover:text-slate-400 hover:cursor-pointer"

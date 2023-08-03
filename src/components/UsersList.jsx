@@ -16,7 +16,7 @@ export function UsersList({ users, handleFollow, handleUnfollow, handleDeleteFol
                         <div className="text-center flex flex-col justify-around w-3/4">
                             <p
                                 className="flex gap-3 items-center justify-around text-md hover:text-slate-400 hover:cursor-pointer"
-                                onClick={() => navigate(`/profiles-app/profile/${user.id}`)}
+                                onClick={() => navigate(`/profiles/profile/${user.id}`)}
                             >
                                 @{user.username}
                             </p>

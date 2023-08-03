@@ -28,7 +28,7 @@ export function useAuth() {
             const data = await res.json()
             if (data.message !== "Successful register.") return toast.error('Email already exists.')
             toast.success(data.message)
-            navigate('/profiles-app/')
+            navigate('/profiles/')
         } catch (err) {
             toast.error(err.message)
         }
@@ -46,7 +46,7 @@ export function useAuth() {
             const data = await res.json()
             if (data.message === "Invalid user or password.") return toast.error(data.message)
             setAuth(data)
-            navigate('/profiles-app/')
+            navigate('/profiles/')
         } catch (err) {
             toast.error(err.message)
         }
@@ -55,7 +55,7 @@ export function useAuth() {
     function handleLogout() {
         localStorage.clear()
         setAuth(null)
-        navigate('/profiles-app/')
+        navigate('/profiles/')
     }
 
     return { handleSignup, login, handleLogout }
