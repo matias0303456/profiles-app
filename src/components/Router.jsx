@@ -10,11 +10,11 @@ import { UpdateUser } from "../pages/UpdateUser";
 export function Router() {
     return (
         <Routes>
-            <Route path="/profiles-app/" element={<Home />} />
-            <Route path="/profiles-app/signup" element={<Signup />} />
-            <Route path="/profiles-app/signin" element={<Signin />} />
-            <Route path="/profiles-app/profile/:id" element={<Profile />} />
-            <Route path="/profiles-app/update-user/:id" element={<UpdateUser />} />
+            <Route path="/profiles/" element={<Home />} />
+            <Route path="/profiles/signup" element={<Signup />} />
+            <Route path="/profiles/signin" element={<Signin />} />
+            <Route path="/profiles/profile/:id" element={<Profile />} />
+            <Route path="/profiles/update-user/:id" element={<UpdateUser />} />
             <Route path="*" element={<Error />} />
         </Routes>
     )
